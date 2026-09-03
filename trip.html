@@ -4,7 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script></head>
 <body>
 <header class="topbar"><a class="brand" href="index.html">✦ TRAVEL LOG</a><div class="spacer"></div>
-<button id="editTrip" class="ghost admin-only hidden">여행 수정</button><button id="deleteTrip" class="ghost danger admin-only hidden">여행 삭제</button></header>
+<button id="editTrip" class="edit-icon admin-only hidden" aria-label="여행 수정" title="여행 수정">✎</button><button id="deleteTrip" class="ghost danger admin-only hidden">여행 삭제</button></header>
 <main class="shell"><section id="tripHero" class="trip-hero"></section>
 <section class="layout"><aside><div class="sticky-card"><div class="section-head"><h3>전체 흐름</h3><button id="addDay" class="mini admin-only hidden">+ 날짜</button></div><div id="timeline" class="timeline"></div></div></aside>
 <section><div class="section-head"><h2>일정</h2><span class="muted">날짜를 누르면 상세 일정으로 이동합니다.</span></div><div id="dayCards" class="day-list"></div></section></section></main>
