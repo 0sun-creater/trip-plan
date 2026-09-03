@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trip</title><link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script></head>
+<body>
+<header class="topbar"><a class="brand" href="index.html">✦ TRAVEL LOG</a><div class="spacer"></div>
+<button id="editTrip" class="ghost admin-only hidden">여행 수정</button><button id="deleteTrip" class="ghost danger admin-only hidden">여행 삭제</button></header>
+<main class="shell"><section id="tripHero" class="trip-hero"></section>
+<section class="layout"><aside><div class="sticky-card"><div class="section-head"><h3>전체 흐름</h3><button id="addDay" class="mini admin-only hidden">+ 날짜</button></div><div id="timeline" class="timeline"></div></div></aside>
+<section><div class="section-head"><h2>일정</h2><span class="muted">날짜를 누르면 상세 일정으로 이동합니다.</span></div><div id="dayCards" class="day-list"></div></section></section></main>
+
+<div id="dayModal" class="modal hidden"><form id="dayForm" class="dialog"><div class="dialog-head"><h2>날짜 추가</h2><button type="button" class="icon" data-close>×</button></div>
+<label>날짜<input name="date" type="date" required></label><label>도시 / 지역<input name="place"></label><label>제목<input name="title" required></label><label>요약<textarea name="summary"></textarea></label><button class="primary full">추가</button></form></div>
+<div id="editTripModal" class="modal hidden"><form id="editTripForm" class="dialog"><div class="dialog-head"><h2>여행 수정</h2><button type="button" class="icon" data-close>×</button></div>
+<label>여행 이름<input name="title" required></label><label>시작일<input name="start_date" type="date" required></label><label>종료일<input name="end_date" type="date" required></label><label>여행 동선<input name="route"></label><label>한 줄 소개<textarea name="summary"></textarea></label><button class="primary full">저장</button></form></div>
+<script src="assets/app.js"></script><script>TravelApp.trip()</script></body></html>
