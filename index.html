@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travel Log</title><link rel="stylesheet" href="assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+</head>
+<body>
+<header class="topbar">
+	<a class="brand" href="index.html">✦ TRAVEL LOG</a><div class="spacer"></div>
+	<span id="authState" class="muted small"></span>
+	<button id="loginBtn" class="ghost">관리자 로그인</button>
+	<button id="logoutBtn" class="ghost hidden">로그아웃</button>
+</header>
+<main class="shell">
+<section class="hero"><div><p class="eyebrow">MY JOURNEYS</p><h1>여행의 모든 날을<br>한 곳에.</h1><p class="muted">여행 전체 흐름에서 하루의 디테일까지.</p></div><button id="addTrip" class="primary admin-only hidden">+ 새 여행</button></section>
+<section><div class="section-head"><h2>여행 목록</h2><span id="tripCount" class="pill">0 trips</span></div><div id="tripGrid" class="trip-grid"></div></section>
+</main>
+
+<div id="loginModal" class="modal hidden"><form id="loginForm" class="dialog">
+<div class="dialog-head"><h2>관리자 로그인</h2><button type="button" class="icon" data-close>×</button></div>
+<label>아이디<input name="username" type="text" autocomplete="username" required placeholder="admin"></label>
+<label>비밀번호<input name="password" type="password" required></label>
+<p id="loginError" class="error"></p><button class="primary full">로그인</button>
+</form></div>
+
+<div id="tripModal" class="modal hidden"><form id="tripForm" class="dialog">
+<div class="dialog-head"><h2>새 여행</h2><button type="button" class="icon" data-close>×</button></div>
+<label>여행 이름<input name="title" required placeholder="Finland · Winter 2026"></label>
+<label>시작일<input name="start_date" type="date" required></label>
+<label>종료일<input name="end_date" type="date" required></label>
+<label>여행 동선<input name="route" placeholder="Helsinki → Rovaniemi → Saariselkä"></label>
+<label>한 줄 소개<textarea name="summary"></textarea></label>
+<button class="primary full">여행 만들기</button></form></div>
+
+<script src="assets/app.js"></script><script>TravelApp.home()</script>
+</body></html>
