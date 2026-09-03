@@ -21,6 +21,8 @@ create table if not exists public.days (
 	title text not null,
 	summary text default '',
 	notes text default '',
+	accommodation_name text default '',
+	accommodation_url text default '',
 	created_at timestamptz not null default now()
 );
 
@@ -39,6 +41,8 @@ create table if not exists public.schedules (
 );
 
 -- Keep existing databases compatible when this script is rerun.
+alter table public.days add column if not exists accommodation_name text default '';
+alter table public.days add column if not exists accommodation_url text default '';
 alter table public.schedules add column if not exists time_label text default '';
 alter table public.schedules add column if not exists cost text default '';
 
