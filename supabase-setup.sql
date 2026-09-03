@@ -29,12 +29,18 @@ create table if not exists public.schedules (
 	day_id uuid not null references public.days(id) on delete cascade,
 	owner_id uuid not null references auth.users(id) on delete cascade,
 	time time,
+	time_label text default '',
 	title text not null,
 	place text default '',
 	detail text default '',
+	cost text default '',
 	map_url text,
 	created_at timestamptz not null default now()
 );
+
+-- Keep existing databases compatible when this script is rerun.
+alter table public.schedules add column if not exists time_label text default '';
+alter table public.schedules add column if not exists cost text default '';
 
 alter table public.trips enable row level security;
 alter table public.days enable row level security;
