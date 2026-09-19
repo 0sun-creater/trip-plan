@@ -105,6 +105,8 @@ const DayRouteMap=(()=>{
 	}
 
 	async function render(items,{context=""}={}){
+		lastItems=[...(items||[])];
+		lastContext=context;
 		const token=++renderToken;
 		const linked=(items||[]).filter(x=>x.map_url);
 		const wrap=$("routeMapWrap"),empty=$("routeMapEmpty"),meta=$("routeMapMeta"),open=$("openDayRoute");
@@ -162,6 +164,13 @@ const DayRouteMap=(()=>{
 		}
 	}
 
-	return {render};
+	function reorderItems(ids){
+		if(!Array.isArray(ids)||!ids.length||!lastItems.length)return;
+		const pos=new Map(ids.map((id,i)=>[String(id),i]));
+		lastItems.sort((a,b)=>(pos.get(String(a.id))??99999)-(pos.get(String(b.id))??99999));
+		render(lastItems,{context:lastContext});
+	}
+
+	return {render,reorder:reorderItems};
 })();
 window.DayRouteMap=DayRouteMap;
