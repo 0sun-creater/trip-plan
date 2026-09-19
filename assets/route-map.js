@@ -1,7 +1,7 @@
 const DayRouteMap=(()=>{
 	const $=id=>document.getElementById(id);
 	const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-	let map=null,layer=null,renderToken=0;
+	let map=null,layer=null,renderToken=0,lastItems=[],lastContext="";
 
 	function esc(v){return String(v??"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[s]));}
 	function extractCoords(raw){
@@ -89,7 +89,7 @@ const DayRouteMap=(()=>{
 
 	function googleDirections(points){
 		if(!points.length)return "";
-		const label=p=>(p.place||p.title||(p.lat+","+p.lng)).trim();
+		const label=p=>p.lat+","+p.lng;
 		if(points.length===1)return points[0].map_url||("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(label(points[0])));
 		const params=new URLSearchParams({api:"1",origin:label(points[0]),destination:label(points[points.length-1]),travelmode:"driving"});
 		if(points.length>2)params.set("waypoints",points.slice(1,-1).map(label).join("|"));
