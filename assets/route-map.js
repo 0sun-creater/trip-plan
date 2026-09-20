@@ -67,6 +67,11 @@ const DayRouteMap=(()=>{
 	function icon(n){
 		return L.divIcon({className:"route-number-icon",html:'<div class="route-pin"><b>'+n+'</b></div>',iconSize:[32,32],iconAnchor:[16,31],popupAnchor:[0,-29]});
 	}
+	function transitLegUrl(a,b){
+		const params=new URLSearchParams({api:"1",origin:a.lat+","+a.lng,destination:b.lat+","+b.lng,travelmode:"transit"});
+		return "https://www.google.com/maps/dir/?"+params.toString();
+	}
+
 	function googleDirections(points){
 		if(!points.length)return "";
 		const label=p=>p.lat+","+p.lng;
@@ -89,7 +94,7 @@ const DayRouteMap=(()=>{
 		lastContext=context;
 		const token=++renderToken;
 		const linked=(items||[]).filter(x=>x.map_url);
-		const wrap=$("routeMapWrap"),empty=$("routeMapEmpty"),meta=$("routeMapMeta"),open=$("openDayRoute");
+		const wrap=$("routeMapWrap"),empty=$("routeMapEmpty"),meta=$("routeMapMeta"),open=$("openDayRoute"),legs=$("routeTransitLegs");
 		if(!wrap||!empty)return;
 		if(!linked.length){
 			wrap.classList.add("hidden");
@@ -129,6 +134,9 @@ const DayRouteMap=(()=>{
 			L.polyline(points.map(p=>[p.lat,p.lng]),{weight:4,opacity:.72,dashArray:"10 10"}).addTo(layer);
 		}
 		meta.innerHTML="<strong>"+points.length+"개 장소</strong><span>대중교통 이동 순서 기준</span><span>실제 노선·소요시간은 Google Maps에서 확인</span>";
+		if(legs){
+			legs.innerHTML=points.length>1?points.slice(0,-1).map((p,i)=>'<a class="mini transit-leg-link" target="_blank" rel="noopener" href="'+transitLegUrl(p,points[i+1])+'">🚇 '+(i+1)+' → '+(i+2)+'</a>').join(""):"";
+		}
 		m.fitBounds(bounds,{padding:[28,28],maxZoom:14});
 		setTimeout(()=>m.invalidateSize(),80);
 		if(open){
