@@ -91,7 +91,7 @@ const DayRouteMap=(()=>{
 		if(!points.length)return "";
 		const label=p=>p.lat+","+p.lng;
 		if(points.length===1)return points[0].map_url||("https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(label(points[0])));
-		const params=new URLSearchParams({api:"1",origin:label(points[0]),destination:label(points[points.length-1]),travelmode:"driving"});
+		const params=new URLSearchParams({api:"1",origin:label(points[0]),destination:label(points[points.length-1]),travelmode:"transit"});
 		if(points.length>2)params.set("waypoints",points.slice(1,-1).map(label).join("|"));
 		return "https://www.google.com/maps/dir/?"+params.toString();
 	}
@@ -145,17 +145,10 @@ const DayRouteMap=(()=>{
 			marker.bindPopup("<strong>"+(i+1)+". "+esc(p.title||p.place||"일정")+"</strong>"+(p.place?"<br>"+esc(p.place):""));
 			bounds.push([p.lat,p.lng]);
 		});
-		const route=await roadRoute(points);
-		if(token!==renderToken)return;
-		if(route){
-			const latlngs=route.geometry.coordinates.map(c=>[c[1],c[0]]);
-			L.polyline(latlngs,{weight:5,opacity:.78}).addTo(layer);
-			meta.innerHTML="<strong>"+points.length+"개 장소</strong><span>총 "+fmtDistance(route.distance)+"</span><span>운전 약 "+fmtDuration(route.duration)+"</span>";
-			latlngs.forEach(x=>bounds.push(x));
-		}else{
-			L.polyline(points.map(p=>[p.lat,p.lng]),{weight:4,opacity:.65,dashArray:"8 8"}).addTo(layer);
-			meta.innerHTML="<strong>"+points.length+"개 장소</strong><span>도로 경로를 불러오지 못해 위치를 직선으로 표시했습니다.</span>";
+		if(points.length>1){
+			L.polyline(points.map(p=>[p.lat,p.lng]),{weight:4,opacity:.72,dashArray:"10 10"}).addTo(layer);
 		}
+		meta.innerHTML="<strong>"+points.length+"개 장소</strong><span>대중교통 이동 순서 기준</span><span>실제 노선·소요시간은 Google Maps에서 확인</span>";
 		m.fitBounds(bounds,{padding:[28,28],maxZoom:14});
 		setTimeout(()=>m.invalidateSize(),80);
 		if(open){
