@@ -67,26 +67,6 @@ const DayRouteMap=(()=>{
 	function icon(n){
 		return L.divIcon({className:"route-number-icon",html:'<div class="route-pin"><b>'+n+'</b></div>',iconSize:[32,32],iconAnchor:[16,31],popupAnchor:[0,-29]});
 	}
-	function fmtDistance(m){return m>=1000?(m/1000).toFixed(m>=10000?0:1)+" km":Math.round(m)+" m";}
-	function fmtDuration(sec){
-		const min=Math.round(sec/60);
-		if(min<60)return min+"분";
-		const h=Math.floor(min/60),r=min%60;
-		return h+"시간"+(r?" "+r+"분":"");
-	}
-
-	async function roadRoute(points){
-		if(points.length<2)return null;
-		const coords=points.map(p=>p.lng+","+p.lat).join(";");
-		const url="https://router.project-osrm.org/route/v1/driving/"+coords+"?overview=full&geometries=geojson&steps=false";
-		try{
-			const res=await fetch(url);
-			if(!res.ok)return null;
-			const data=await res.json();
-			return data.code==="Ok"&&data.routes&&data.routes.length?data.routes[0]:null;
-		}catch(e){return null}
-	}
-
 	function googleDirections(points){
 		if(!points.length)return "";
 		const label=p=>p.lat+","+p.lng;
